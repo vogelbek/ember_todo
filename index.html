@@ -6,6 +6,31 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
+    <script type="text/x-handlebars" data-template-name="todos/index">
+      <ul id="todo-list">
+        {{#each todo in model itemController="todo"}}
+        <li {{bind-attr class="todo.isCompleted:completed todo.isEditing:editing"}}>
+          {{#if todo.isEditing}}
+            {{edit-todo
+              class="edit"
+              value=todo.title
+              focus-out="acceptChanges"
+              insert-newline="acceptChanges"}}
+          {{else}}
+            {{input
+              type="checkbox"
+              checked=todo.isCompleted
+              class="toggle"
+            }}
+            <label {{action "editTodo" on="doubleClick"}}>
+              {{todo.title}}
+            </label>
+            <button {{action "removeTodo"}} class="destroy"></button>
+          {{/if}}
+        </li>
+        {{/each}}
+      </ul>
+    </script>
     <script type="text/x-handlebars" data-template-name="todos">
       <section id="todoapp">
         <header id="header">
@@ -20,30 +45,7 @@
         </header>
 
         <section id="main">
-          <ul id="todo-list">
-            {{#each todo in model itemController="todo"}}
-            <li {{bind-attr class="todo.isCompleted:completed todo.isEditing:editing"}}>
-              {{#if todo.isEditing}}
-                {{edit-todo
-                  class="edit"
-                  value=todo.title
-                  focus-out="acceptChanges"
-                  insert-newline="acceptChanges"}}
-              {{else}}
-                {{input
-                  type="checkbox"
-                  checked=todo.isCompleted
-                  class="toggle"
-                }}
-                <label {{action "editTodo" on="doubleClick"}}>
-                  {{todo.title}}
-                </label>
-                <button {{action "removeTodo"}} class="destroy"></button>
-              {{/if}}
-            </li>
-            {{/each}}
-          </ul>
-
+          {{outlet}}
           <input type="checkbox" id="toggle-all">
         </section>
 
@@ -75,8 +77,8 @@
     </script>
     <script src = 'http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js'></script>
     <script src = 'http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.3.0/handlebars.min.js'></script>
-    <script src = 'http://cdnjs.cloudflare.com/ajax/libs/ember.js/1.9.0-beta.1/ember.min.js'></script>
-    <script src = 'http://cdnjs.cloudflare.com/ajax/libs/ember-data.js/1.0.0-beta.11/ember-data.min.js'></script>
+    <script src = 'http://emberjs.com.s3.amazonaws.com/getting-started/ember.js'></script>
+    <script src = 'http://emberjs.com.s3.amazonaws.com/getting-started/ember-data.js'></script>
     <script src = "js/application.js"></script>
     <script src = "js/router.js"></script>
     <script src = "js/models/todo.js"></script>
